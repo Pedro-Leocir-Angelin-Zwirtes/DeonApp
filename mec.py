@@ -1,6 +1,7 @@
 import customtkinter
 from datetime import datetime
 
+#Sistemas para calcular varias horas
 def calcular_diferenca_horas(inicio, termino):
     formato = '%H%M'
     hora_inicio = datetime.strptime(inicio, formato)
@@ -26,4 +27,20 @@ def calcular_valor(valor, resultado):
         resultado_text = f"{horas_inteiras} h : {int(minutos_fracionados)} min"
         resultado.configure(text=resultado_text)
     except ValueError:
-        resultado.configure(text="Valor inválido!", text_color="red")
+        resultado.configure(text="Valor inválido!")
+
+#Sistemas para calcular varios materiais
+def calcular_material(valor2, resultado2):
+    try:
+        matirial = valor2
+        material_linhas = matirial.strip().split('\n')
+        soma_material = 0
+
+        for linha in material_linhas:
+            medida, quantidade = linha.split()
+            soma_material += int(medida) * int(quantidade) 
+
+        resultado_text = f"{soma_material} mm(s)"
+        resultado2.configure(text=resultado_text)
+    except ValueError:
+        resultado2.configure(text="Valor inválido!")
