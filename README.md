@@ -11,4 +11,4 @@ Que corresponde ao diferença de tempo das 8:00 até o 12:00
 
 # Problemas na instalação do projeto
 Em algumas versões do windows encontrei problemas com o pyinstaller no modo convencional de instalar então pode se usar o seguinte comando: <br><br>
-pyinstaller -F main.py --collect-all -i logo.ico customtkinter -w
+pyinstaller -F main.py --collect-all customtkinter -w -i logo.ico
