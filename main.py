@@ -21,16 +21,30 @@ class Interface():
                 mec_instance.calcular_valor(texto, self.resultado)
             elif mec_instance.STATUS_BOTAO == 3:
                 mec_instance.somar_horas(texto, self.resultado)
+            else:
+                self.resultado.configure(text="Selecione uma opções!")
 
         def capturar_material():
             material = self.textbox2.get("0.0", "end")
-            mec_instance.calcular_material(material, self.resultado2)
+
+            if mec_instance.STATUS_BOTAO == 2:
+                mec_instance.calcular_material(material, self.resultado2)
+            elif mec_instance.STATUS_BOTAO == 3:
+                mec_instance.calcular_chapas(material, self.resultado2)
+            else:
+                self.resultado2.configure(text="Selecione uma opções!")
 
         #Checkbox command
         def checkbox_event_calcular():
             status = self.check_var_calcular.get()
             status_check2 = self.check_var_soma.get()
             mec_instance.verificar_status(status, status_check2, self.checkbox_calcular, self.checkbox_soma)
+
+        #Checkbox command
+        def checkbox_event_calcular_materiais():
+            status = self.check_var_materiais.get()
+            status_check2 = self.check_var_chapas.get()
+            mec_instance.verificar_status(status, status_check2, self.checkbox_calcular_materiais, self.checkbox_calcular_chapas)
 
         #Criando os widgets 1
 
@@ -41,7 +55,7 @@ class Interface():
         self.resultado2 = customtkinter.CTkLabel(self.app, text="", font=("Arial", 20), text_color='#214697')
 
 
-        self.pedro = customtkinter.CTkLabel(self.app, text="By: Pedro Leocir - Vers 2.2", font=("Arial", 14), text_color='#214697')
+        self.pedro = customtkinter.CTkLabel(self.app, text="By: Pedro Leocir - Vers 2.3", font=("Arial", 14), text_color='#214697')
 
         #Text area
         self.textbox = customtkinter.CTkTextbox(self.app, text_color='#214697', font=("Arial", 18), fg_color='#dcdcdc')
@@ -68,11 +82,25 @@ class Interface():
          #Buttons
         self.button2 = customtkinter.CTkButton(self.app, text='Calcular material', font=("Arial", 15), fg_color=("#214697"), hover_color='#131c23', command=capturar_material)
 
+        #CheckBox dos materiais
+        self.check_var_materiais = customtkinter.StringVar(value="off")
+        self.checkbox_calcular_materiais = customtkinter.CTkCheckBox(self.app, text="Calcular materiais", command=checkbox_event_calcular_materiais,
+                                             variable=self.check_var_materiais, onvalue="on", offvalue="off",
+                                             fg_color='#214697', border_color='#214697')
+        #CheckBox das chapas
+        self.check_var_chapas = customtkinter.StringVar(value="off")
+        self.checkbox_calcular_chapas = customtkinter.CTkCheckBox(self.app, text="Calcular chapas", command=checkbox_event_calcular_materiais,
+                                             variable=self.check_var_chapas, onvalue="on", offvalue="off",
+                                             fg_color='#214697', border_color='#214697')
+
+
         #Grid
         self.label.grid(row=0, column=0, pady=10, sticky='ew', padx=20, columnspan=2)
 
         self.checkbox_calcular.grid(row=1, column=0, sticky='we', padx=10, pady=10)
         self.checkbox_soma.grid(row=1, column=0, sticky='ne', padx=10, pady=10)
+        self.checkbox_calcular_materiais.grid(row=1, column=1, sticky='we', padx=10, pady=10)
+        self.checkbox_calcular_chapas.grid(row=1, column=1, sticky='ne', padx=10, pady=10)
 
         self.textbox.grid(row=2, column=0, sticky='ew', padx=10)
         self.textbox2.grid(row=2, column=1, sticky='ew', padx=10)
