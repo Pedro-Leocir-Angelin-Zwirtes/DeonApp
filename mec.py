@@ -35,22 +35,6 @@ class Mec:
         except ValueError:
             resultado.configure(text="Valor inválido!")
 
-    #Sistemas para calcular varios materiais
-    def calcular_material(self, valor2, resultado2):
-        try:
-            matirial = valor2
-            material_linhas = matirial.strip().split('\n')
-            soma_material = 0
-
-            for linha in material_linhas:
-                medida, quantidade = linha.split()
-                soma_material += int(medida) * int(quantidade) 
-
-            resultado_text = f"{soma_material} mm(s)"
-            resultado2.configure(text=resultado_text)
-        except ValueError:
-            resultado2.configure(text="Valor inválido!")
-
     #calcular hora somadas
     def somar_horas(self, valor, resultado):
         try:
@@ -76,32 +60,72 @@ class Mec:
                 if total_minutos > 0:
                     resultados += f"{total_minutos}"
 
-                resultado_text = f"{resultados} horas totais"
-                resultado.configure(text=resultado_text)
+                if total_horas > 0:
+
+                    tam = len(str(total_horas))
+
+                    resultado_text = f"{resultados[:tam]} h : {resultados[tam:]}"
+                    resultado.configure(text=resultado_text)
+
+                else:
+                    resultado_text = f"{resultados[1:]} min"
+                    resultado.configure(text=resultado_text)
 
         except ValueError:
             resultado.configure(text="Valor inválido!")
 
+    #Sistemas para calcular varios materiais
+    def calcular_chapas(self, valor2, resultado2):
+        try:
+            matirial = valor2
+            material_linhas = matirial.strip().split('\n')
+            peso_chapas = 0
+
+            for linha in material_linhas:
+                medida1, medida2, chapa = linha.split()
+                if chapa == '3/16':
+                    peso_chapas += ((int(medida1)/10 * int(medida2)/10) * 38) / 10000
+
+            resultado_text = f"{round(peso_chapas, 2)} Kg(s)"
+            resultado2.configure(text=resultado_text)
+        except ValueError:
+            resultado2.configure(text="Valor inválido!")
+
+    def calcular_material(self, valor2, resultado2):
+        try:
+            matirial = valor2
+            material_linhas = matirial.strip().split('\n')
+            soma_material = 0
+
+            for linha in material_linhas:
+                medida, quantidade = linha.split()
+                soma_material += int(medida) * int(quantidade) 
+
+            resultado_text = f"{soma_material} mm(s)"
+            resultado2.configure(text=resultado_text)
+        except ValueError:
+            resultado2.configure(text="Valor inválido!")
+
     #Logica dos checkbox na parte de horas
-    def verificar_status(self, valor_check, valor_check2, checkbox_calcular, checkbox_soma):
+    def verificar_status(self, valor_check, valor_check2, checkbox1, checkbox2):
         status_valor = valor_check
         status_valor2 = valor_check2
 
         if status_valor == 'off' and status_valor2 == 'off':
-            checkbox_calcular.configure(state='normal')
-            checkbox_soma.configure(state='normal')
+            checkbox1.configure(state='normal')
+            checkbox2.configure(state='normal')
 
             self.STATUS_BOTAO = 1
 
         else:
             if status_valor == 'on' and status_valor2 == 'off':
-                checkbox_calcular.configure(state='normal')
-                checkbox_soma.configure(state='disabled')
+                checkbox1.configure(state='normal')
+                checkbox2.configure(state='disabled')
 
                 self.STATUS_BOTAO = 2
 
             elif status_valor2 == 'on' and status_valor == 'off':
-                checkbox_calcular.configure(state='disabled')
-                checkbox_soma.configure(state='normal')
+                checkbox1.configure(state='disabled')
+                checkbox2.configure(state='normal')
 
                 self.STATUS_BOTAO = 3
